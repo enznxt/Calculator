@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Simple Calculator</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+
+    <div class="bg-white w-full max-w-sm p-8 rounded-2xl shadow-xl">
+
+        <h1 class="text-3xl font-bold text-center text-slate-800 mb-2">
+            Calculator
+        </h1>
+
+        <p class="text-center text-slate-500 mb-8">
+            Enter your numbers and choose an operation.
+        </p>
+
+        <form method="GET">
+
+            <div class="mb-5">
+                <label for="num1" class="block font-semibold text-slate-700 mb-2">
+                    First Number
+                </label>
+
+                <input
+                    type="number"
+                    step="any"
+                    name="num1"
+                    id="num1"
+                    value="{{ num1 }}"
+                    required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter first number"
+                >
+            </div>
+
+            <div class="mb-5">
+                <label for="num2" class="block font-semibold text-slate-700 mb-2">
+                    Second Number
+                </label>
+
+                <input
+                    type="number"
+                    step="any"
+                    name="num2"
+                    id="num2"
+                    value="{{ num2 }}"
+                    required
+                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter second number"
+                >
+            </div>
+
+            <p class="font-semibold text-slate-700 mb-3">
+                Choose an operation
+            </p>
+
+            <div class="grid grid-cols-4 gap-3">
+
+                <button
+                    type="submit"
+                    name="operator"
+                    value="+"
+                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
+                    +
+                </button>
+
+                <button
+                    type="submit"
+                    name="operator"
+                    value="-"
+                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
+                    −
+                </button>
+
+                <button
+                    type="submit"
+                    name="operator"
+                    value="*"
+                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
+                    ×
+                </button>
+
+                <button
+                    type="submit"
+                    name="operator"
+                    value="/"
+                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
+                    ÷
+                </button>
+
+            </div>
+
+        </form>
+
+        {% if result != None %}
+
+            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+
+                <p class="text-sm text-blue-600 font-semibold mb-2">
+                    RESULT
+                </p>
+
+                <h2 class="text-3xl font-bold text-slate-800 break-words">
+                    {{ result }}
+                </h2>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
