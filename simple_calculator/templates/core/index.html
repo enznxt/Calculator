@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,27 +6,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Simple Calculator</title>
+    <title>Modern Calculator</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen bg-slate-100 flex items-center justify-center p-4">
 
-    <div class="bg-white w-full max-w-sm p-8 rounded-2xl shadow-xl">
+    <div class="bg-white w-full max-w-md p-8 rounded-3xl shadow-xl border border-slate-100">
 
-        <h1 class="text-3xl font-bold text-center text-slate-800 mb-2">
-            Calculator
-        </h1>
+        <!-- Heading -->
+        <div class="mb-2">
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-800">
+                Calculator
+            </h1>
+        </div>
 
-        <p class="text-center text-slate-500 mb-8">
-            Enter your numbers and choose an operation.
+        <p class="text-sm text-slate-500 mb-6">
+            Enter your values and select an operation to calculate.
         </p>
 
-        <form method="GET">
+        <!-- Live Expression Display -->
+        <div class="mb-6 bg-slate-50 border border-slate-200 p-4 rounded-2xl shadow-sm">
 
-            <div class="mb-5">
-                <label for="num1" class="block font-semibold text-slate-700 mb-2">
+            <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+                Live Expression
+            </div>
+
+            <div
+                id="expressionDisplay"
+                class="text-lg font-mono text-slate-800 break-words min-h-7"
+                aria-live="polite"
+            >
+                Ready for input...
+            </div>
+
+        </div>
+
+        <!-- Calculator Form -->
+        <form id="calcForm" class="space-y-5">
+
+            <!-- First Number -->
+            <div>
+                <label
+                    for="num1"
+                    class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+                >
                     First Number
                 </label>
 
@@ -34,89 +74,219 @@
                     step="any"
                     name="num1"
                     id="num1"
-                    value="{{ num1 }}"
                     required
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter first number"
+                    class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
                 >
             </div>
 
-            <div class="mb-5">
-                <label for="num2" class="block font-semibold text-slate-700 mb-2">
-                    Second Number
-                </label>
+            <!-- Operator and Second Number -->
+            <div class="grid grid-cols-2 gap-4">
 
-                <input
-                    type="number"
-                    step="any"
-                    name="num2"
-                    id="num2"
-                    value="{{ num2 }}"
-                    required
-                    class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter second number"
-                >
+                <!-- Operator -->
+                <div>
+                    <label
+                        for="operator"
+                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+                    >
+                        Operation
+                    </label>
+
+                    <select
+                        name="operator"
+                        id="operator"
+                        required
+                        class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
+                    >
+                        <option value="" selected disabled>Choose</option>
+                        <option value="+">Addition (+)</option>
+                        <option value="-">Subtraction (−)</option>
+                        <option value="*">Multiplication (×)</option>
+                        <option value="/">Division (÷)</option>
+                    </select>
+                </div>
+
+                <!-- Second Number -->
+                <div>
+                    <label
+                        for="num2"
+                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+                    >
+                        Second Number
+                    </label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        name="num2"
+                        id="num2"
+                        required
+                        class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
+                    >
+                </div>
+
             </div>
 
-            <p class="font-semibold text-slate-700 mb-3">
-                Choose an operation
-            </p>
-
-            <div class="grid grid-cols-4 gap-3">
-
+            <!-- Calculate Button -->
+            <div class="pt-2">
                 <button
+                    id="calculateButton"
                     type="submit"
-                    name="operator"
-                    value="+"
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
-                    +
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-200 disabled:opacity-50"
+                >
+                    Calculate Result
                 </button>
-
-                <button
-                    type="submit"
-                    name="operator"
-                    value="-"
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
-                    −
-                </button>
-
-                <button
-                    type="submit"
-                    name="operator"
-                    value="*"
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
-                    ×
-                </button>
-
-                <button
-                    type="submit"
-                    name="operator"
-                    value="/"
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold py-3 rounded-lg">
-                    ÷
-                </button>
-
             </div>
 
         </form>
 
-        {% if result != None %}
+        <!-- Result Box -->
+        <div
+            id="resultContainer"
+            class="mt-8 hidden p-5 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl text-center shadow-inner"
+            aria-live="polite"
+        >
 
-            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
-
-                <p class="text-sm text-blue-600 font-semibold mb-2">
-                    RESULT
-                </p>
-
-                <h2 class="text-3xl font-bold text-slate-800 break-words">
-                    {{ result }}
-                </h2>
-
+            <div class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">
+                Calculation Result
             </div>
 
-        {% endif %}
+            <h2
+                id="resultValue"
+                class="text-4xl font-extrabold text-slate-800 break-words mt-2"
+            ></h2>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 pt-6 border-t border-slate-100 text-center">
+            <p class="text-xs text-slate-400 font-medium">
+                Secure server-side computation engine
+            </p>
+        </div>
 
     </div>
+
+    <script>
+        // Get the calculator elements
+        const form = document.getElementById('calcForm');
+        const num1Input = document.getElementById('num1');
+        const num2Input = document.getElementById('num2');
+        const operatorInput = document.getElementById('operator');
+
+        const expressionDisplay = document.getElementById('expressionDisplay');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultValue = document.getElementById('resultValue');
+        const calculateButton = document.getElementById('calculateButton');
+
+
+        // Convert the operator into a display symbol
+        function getSymbol(operator) {
+            if (operator === '*') {
+                return '×';
+            } else if (operator === '/') {
+                return '÷';
+            } else if (operator === '-') {
+                return '−';
+            } else {
+                return '+';
+            }
+        }
+
+
+        // Update the expression while the user types
+        function updateExpression() {
+            const num1 = num1Input.value;
+            const num2 = num2Input.value;
+            const operator = operatorInput.value;
+
+            // Hide the previous result when inputs change
+            resultContainer.classList.add('hidden');
+
+            if (num1 === '' && num2 === '' && operator === '') {
+                expressionDisplay.textContent = 'Ready for input...';
+                return;
+            }
+
+            if (num1 !== '' && operator !== '' && num2 !== '') {
+                const symbol = getSymbol(operator);
+
+                expressionDisplay.textContent =
+                    `${num1} ${symbol} ${num2}`;
+
+            } else if (num1 !== '' && operator !== '') {
+                const symbol = getSymbol(operator);
+
+                expressionDisplay.textContent =
+                    `${num1} ${symbol}`;
+
+            } else {
+                expressionDisplay.textContent =
+                    num1 || num2 || 'Ready for input...';
+            }
+        }
+
+
+        // Listen for changes in the input fields
+        num1Input.addEventListener('input', updateExpression);
+        num2Input.addEventListener('input', updateExpression);
+        operatorInput.addEventListener('change', updateExpression);
+
+
+        // Calculate without reloading the page
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const num1 = num1Input.value;
+            const num2 = num2Input.value;
+            const operator = operatorInput.value;
+
+            // Build the request parameters
+            const params = new URLSearchParams();
+
+            params.append('ajax', 'true');
+            params.append('num1', num1);
+            params.append('num2', num2);
+            params.append('operator', operator);
+
+            // Prevent repeated clicks while calculating
+            calculateButton.disabled = true;
+            calculateButton.textContent = 'Calculating...';
+
+            fetch(`${window.location.pathname}?${params.toString()}`)
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Server error');
+                    }
+
+                    return response.json();
+                })
+                .then(function(data) {
+                    const result = data.result;
+
+                    // Display the result
+                    resultValue.textContent =
+                        result === null ? 'Invalid input!' : result;
+
+                    resultContainer.classList.remove('hidden');
+
+                    // Display the complete equation
+                    const symbol = getSymbol(operator);
+
+                    expressionDisplay.textContent =
+                        `${num1} ${symbol} ${num2} = ${result ?? 'Invalid input!'}`;
+                })
+                .catch(function(error) {
+                    resultValue.textContent = 'Unable to calculate.';
+                    resultContainer.classList.remove('hidden');
+
+                    console.error('Calculation error:', error);
+                })
+                .finally(function() {
+                    calculateButton.disabled = false;
+                    calculateButton.textContent = 'Calculate Result';
+                });
+        });
+    </script>
 
 </body>
 </html>
